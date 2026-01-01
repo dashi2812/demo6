@@ -434,17 +434,18 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
     });
 });
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   fetch("https://async-lead-service.onrender.com/submit", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({}) // empty body or default values
-//   }).catch(() => {
-//     // ignore errors
-//   });
-// });
+window.addEventListener("DOMContentLoaded", () => {
+  fetch("https://async-lead-service.onrender.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}) // empty body or default values
+  }).catch(() => {
+    // ignore errors
+  });
+});
 
 </script>
 
 </body>
 </html>
+
