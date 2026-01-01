@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mysqft</title>
+
+<style>
+/* ========== RESET & GLOBAL ========== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,system-ui,sans-serif;
+}
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:72px;
+  overflow-y:scroll;
+  scrollbar-width:none;
+}
+html::-webkit-scrollbar{width:0;height:0}
+
+body{
+  background:#020617;
+  color:#e5e7eb;
+  overflow-x:hidden;
+  max-width:100vw;
+}
+
+/* ========== HERO ========== */
+.hero{
+  min-height:100vh;
+  padding-top:72px;
+  background:linear-gradient(135deg,#0f172a,#020617);
+}
+
+/* ========== NAVBAR ========== */
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:72px;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  background:rgba(2,6,23,.95);
+  backdrop-filter:blur(14px);
+}
+.navbar.scrolled{
+  box-shadow:0 12px 40px rgba(0,0,0,.6);
+}
+.navbar h1{
+  color:#facc15;
+  font-size:20px;
+  font-weight:700;
+}
+
+nav{
+  display:flex;
+  gap:28px;
+}
+nav a{
+  color:#e5e7eb;
+  text-decoration:none;
+  font-weight:500;
+  position:relative;
+}
+nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#facc15;
+  transition:.3s;
+}
+nav a:hover::after,
+nav a.active::after{width:100%}
+
+.menu{
+  display:none;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* ========== INTRO ========== */
+.intro{
+  text-align:center;
+  padding:48px 16px 24px;
+}
+.intro p{color:#94a3b8}
+.intro h2{color:#facc15;font-size:28px}
+
+/* ========== FORM ========== */
+.form-card{
+  max-width:420px;
+  margin:0 auto 48px;
+  padding:28px;
+  background:rgba(255,255,255,.08);
+  border-radius:20px;
+  border:1px solid rgba(250,204,21,.35);
+  backdrop-filter:blur(18px);
+}
+
+.field{
+  position:relative;
+  margin-bottom:22px;
+}
+
+/* INPUTS */
+.field input,
+.field select{
+  width:100%;
+  height:46px;
+  padding:12px 14px 0;
+  border-radius:12px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(250,204,21,.35);
+  color:#fff;
+  outline:none;
+  appearance:none;
+}
+
+/* FIX: no background change on focus */
+.field input:focus,
+.field select:focus{
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(250,204,21,.35);
+    /* border-color:#facc15; */
+}
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #0b1220 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+
+/* FLOATING LABEL (CORRECT METHOD) */
+.field label{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:14px;
+  color:#facc15;
+  pointer-events:none;
+  transition:.25s;
+  background:#020617;
+  padding:0 6px;
+}
+
+/* Float label when typing or focused */
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field select:focus + label,
+.field select:valid + label{
+  top:-8px;
+  font-size:12px;
+}
+
+/* select arrow */
+select{
+  background-image:
+    linear-gradient(45deg,transparent 50%,#facc15 50%),
+    linear-gradient(135deg,#facc15 50%,transparent 50%);
+  background-position:
+    calc(100% - 18px) 18px,
+    calc(100% - 12px) 18px;
+  background-size:6px 6px;
+  background-repeat:no-repeat;
+}
+
+/* button */
+button{
+  width:100%;
+  height:48px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#facc15,#eab308);
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ========== GPS ========== */
+.gps-section{
+  padding:64px 20px;
+}
+.gps-section h3{
+  text-align:center;
+  margin-bottom:36px;
+}
+.gps-section span{color:#facc15}
+
+.maps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+}
+
+.map{
+  background:rgba(255,255,255,.06);
+  padding:16px;
+  border-radius:18px;
+}
+.map iframe{
+  width:100%;
+  height:260px;
+  border-radius:14px;
+  border:none;
+  margin-top:10px;
+}
+
+/* ========== FOOTER ========== */
+footer{
+  text-align:center;
+  padding:24px;
+  opacity:.6;
+}
+
+
+
+/* ========== MOBILE ========== */
+
+@media(max-width:600px) {
+    .form-card{
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+}
+
+@media(max-width:768px){
+  nav{
+    position:fixed;
+    top:72px;
+    right:16px;
+    background:#020617;
+    padding:16px;
+    border-radius:14px;
+    display:none;
+    flex-direction:column;
+    box-shadow:0 12px 40px rgba(0,0,0,.6);
+  }
+  nav.show{display:flex}
+  .menu{display:block}
+  
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero" id="form">
+
+<header class="navbar" id="navbar">
+  <h1>Mysqft</h1>
+  <nav id="navLinks">
+    <a href="#form" class="active">Enquiry</a>
+    <a href="#gps">GPS Locations</a>
+    <a href="https://mysqft.in">Visit Us</a>
+
+  </nav>
+  <div class="menu" id="menuBtn">☰</div>
+</header>
+
+<div class="intro">
+  <p>"Your Legacy, in Square Feet."</p>
+  <h2>Welcome to Mysqft</h2>
+</div>
+
+<div class="form-card">
+
+<form method="POST" id="myForm">
+
+  <div class="field">
+    <input type="text" required placeholder=" ">
+    <label>Name</label>
+  </div>
+
+  <!-- ✅ FIXED MOBILE NUMBER FIELD -->
+  <div class="field">
+    <input
+      type="tel"
+      inputmode="numeric"
+      pattern="[6-9][0-9]{9}"
+      maxlength="10"
+      required
+      placeholder=" "
+    >
+    <label>Mobile Number</label>
+  </div>
+
+  <div class="field">
+    <select id="location" required>
+      <option value="" hidden></option>
+      <option value="amarambedu">Amarambedu</option>
+      <option value="avadi">Avadi</option>
+      <option value="mangadu">Mangadu</option>
+      <option value="velapanchavadi">Velapanchavadi</option>
+      <option value="pakkam">Pakkam</option>
+    </select>
+    <label>Interested Location</label>
+  </div>
+
+  <div class="field">
+    <select required>
+      <option hidden></option>
+      <option>Morning (9–12)</option>
+      <option>Afternoon (12–3)</option>
+      <option>Evening (3–6)</option>
+    </select>
+    <label>Call-friendly hour</label>
+  </div>
+
+  <button type="submit" id="submitBtn">Claim Now</button>
+</form>
+</div>
+</section>
+
+<section class="gps-section" id="gps">
+<h3>Site <span>GPS</span> Locations</h3>
+
+<div class="maps" id="visit">
+  <div class="map" name="amarambedu">
+    <p>Amarambedu</p><span> ₹2299 / sq.ft</span>
+    <iframe src="https://www.google.com/maps?q=12.962085,80.014239&z=15&output=embed"></iframe>
+  </div>
+  <div class="map" name="avadi">
+    <p>Avadi</p><span> ₹4499 / sq.ft</span>
+    <iframe src="https://www.google.com/maps?q=13.122794,80.084160&z=15&output=embed"></iframe>
+  </div>
+  <div class="map" name="mangadu">
+    <p>Mangadu</p><span> ₹4499 / sq.ft</span>
+    <iframe src="https://www.google.com/maps?q=13.036724,80.102176&z=15&output=embed"></iframe>
+  </div>
+  <div class="map" name="velapanchavadi">
+    <p>Velapanchavadi</p><span> ₹5499 / sq.ft</span>
+    <iframe src="https://www.google.com/maps?q=13.064193,80.133110&z=15&output=embed"></iframe>
+  </div>
+  <div class="map" name="pakkam">
+    <p>Pakkam</p><span> ₹599 / sq.ft</span>
+    <iframe src="https://www.google.com/maps?q=12.468477,79.845165&z=15&output=embed"></iframe>
+  </div>
+</div>
+</section>
+
+<!-- <footer>© Mysqft</footer> -->
+
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+menuBtn.onclick = () => navLinks.classList.toggle("show");
+
+
+
+
+const navbar = document.getElementById("navbar");
+window.addEventListener("scroll",()=>{
+  navbar.classList.toggle("scrolled",window.scrollY>10);
+});
+
+const links=document.querySelectorAll("nav a");
+const sections=document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
+  let current="";
+  sections.forEach(sec=>{
+    if(window.scrollY>=sec.offsetTop-120) current=sec.id;
+    
+        
+  });
+  links.forEach(a=>{
+    a.classList.toggle("active",a.getAttribute("href")==="#"+current);
+  });
+});
+
+document.getElementById("location").addEventListener("change",e=>{
+  const map=document.querySelector(`.map[name="${e.target.value}"]`);
+  if(map) map.scrollIntoView({behavior:"smooth"});
+});
+
+
+function sendForm(formData) {
+  return fetch("https://async-lead-service.onrender.com/submit", {
+    method: "POST",
+    body: formData,
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Server returned " + response.status);
+    }
+    return response.json();
+  });
+}
+
+// Usage
+document.getElementById("myForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const formData = new FormData(this);
+  const button = document.getElementById("submitBtn");
+
+  // Change button state
+  button.innerText = "Sending...";
+  button.disabled = true;
+
+  sendForm(formData)
+    .then(data => {
+      console.log("Server response:", data);
+      alert("✅ " + data.message);
+      button.innerText = "Sent!";
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("❌ Failed: Server Error!, please try later");
+      button.innerText = "Try Again";
+    })
+    .finally(() => {
+      // Restore button after a short delay
+      setTimeout(() => {
+        button.innerText = "Book now";
+        button.disabled = false;
+      }, 1500);
+    });
+});
+
+// window.addEventListener("DOMContentLoaded", () => {
+//   fetch("https://async-lead-service.onrender.com/submit", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({}) // empty body or default values
+//   }).catch(() => {
+//     // ignore errors
+//   });
+// });
+
+</script>
+
+</body>
+</html>
