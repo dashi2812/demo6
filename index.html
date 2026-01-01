@@ -282,7 +282,7 @@ footer{
 <form method="POST" id="myForm">
 
   <div class="field">
-    <input type="text" required placeholder=" ">
+    <input type="text" name="name" required placeholder=" ">
     <label>Name</label>
   </div>
 
@@ -292,6 +292,7 @@ footer{
       type="tel"
       inputmode="numeric"
       pattern="[6-9][0-9]{9}"
+      name="mobile"
       maxlength="10"
       required
       placeholder=" "
@@ -300,7 +301,7 @@ footer{
   </div>
 
   <div class="field">
-    <select id="location" required>
+    <select id="location" name="location" required>
       <option value="" hidden></option>
       <option value="amarambedu">Amarambedu</option>
       <option value="avadi">Avadi</option>
@@ -312,14 +313,15 @@ footer{
   </div>
 
   <div class="field">
-    <select required>
+    <select name="call_time" required>
       <option hidden></option>
-      <option>Morning (9–12)</option>
-      <option>Afternoon (12–3)</option>
-      <option>Evening (3–6)</option>
+      <option value="Morning 9-12">Morning (9–12)</option>
+      <option value="Afternoon 12-3">Afternoon (12–3)</option>
+      <option value="Evening 3-6">Evening (3–6)</option>
     </select>
     <label>Call-friendly hour</label>
   </div>
+
 
   <button type="submit" id="submitBtn">Claim Now</button>
 </form>
