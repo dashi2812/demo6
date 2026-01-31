@@ -391,7 +391,7 @@ document.getElementById("location").addEventListener("change",e=>{
 
 
 function sendForm(formData) {
-  return fetch("https://api.discord.mysqft.in/submit", {
+  return fetch("https://api.discord.mysqft.in", {
     method: "POST",
     body: formData,
   })
@@ -435,7 +435,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
 });
 
 // window.addEventListener("DOMContentLoaded", () => {
-//   fetch("https://api.v1.mysqft.in/submit", {
+//   fetch("https://api.v1.mysqft.in", {
 //     method: "POST",
 //     headers: { "Content-Type": "application/json" },
 //     body: JSON.stringify({}) // empty body or default values
@@ -448,6 +448,7 @@ document.getElementById("myForm").addEventListener("submit", function (event) {
 
 </body>
 </html>
+
 
 
 
